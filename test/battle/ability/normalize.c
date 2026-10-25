@@ -34,6 +34,20 @@ SINGLE_BATTLE_TEST("Normalize turns a move into a Normal-type move")
     }
 }
 
+SINGLE_BATTLE_TEST("Omega grants Normalize")
+{
+    GIVEN {
+        ASSUME(GetMoveType(MOVE_WATER_GUN) == TYPE_WATER);
+        PLAYER(SPECIES_GASTLY);
+        OPPONENT(SPECIES_ARCEUS_NORMAL) { Moves(MOVE_WATER_GUN); }
+    } WHEN {
+        TURN { MOVE(opponent, MOVE_WATER_GUN); }
+    } SCENE {
+        NOT { ANIMATION(ANIM_TYPE_MOVE, MOVE_WATER_GUN, opponent); }
+        MESSAGE("It doesn't affect Gastly…");
+    }
+}
+
 SINGLE_BATTLE_TEST("Normalize affects status moves")
 {
     enum Ability ability;

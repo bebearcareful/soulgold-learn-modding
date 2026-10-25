@@ -1,6 +1,8 @@
 #ifndef GUARD_BATTLE_AI_MAIN_H
 #define GUARD_BATTLE_AI_MAIN_H
 
+#include "pokemon.h"
+
 
 typedef s32 (*AiScoreFunc)(u32, u32, u32, s32);
 typedef bool32 (*AiSwitchFunc)(u32);
@@ -135,7 +137,8 @@ static inline bool32 AI_BattlerHasTraitCached(enum BattlerId battler, enum Abili
             return TRUE;
     }
 
-    return FALSE;
+    return OmegaGrantsAbility(abilityToCheck)
+        && AI_BattlerHasTraitCached(battler, ABILITY_OMEGA);
 }
 
 #define AI_BATTLER_HAS_TRAIT(battlerID, abilityToCheck) AI_BattlerHasTraitCached(battlerID, abilityToCheck) //Useful to make calculations faster, used only for AI stuff

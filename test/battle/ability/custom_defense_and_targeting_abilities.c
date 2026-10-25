@@ -730,6 +730,20 @@ SINGLE_BATTLE_TEST("Reborn prevents a KO once and restores full HP")
     }
 }
 
+SINGLE_BATTLE_TEST("Omega grants Reborn")
+{
+    GIVEN {
+        PLAYER(SPECIES_ARCEUS_NORMAL) { HP(50); MaxHP(100); }
+        OPPONENT(SPECIES_WOBBUFFET);
+    } WHEN {
+        TURN { MOVE(opponent, MOVE_SEISMIC_TOSS); }
+    } SCENE {
+        HP_BAR(player, damage: -50);
+    } THEN {
+        EXPECT_EQ(player->hp, 100);
+    }
+}
+
 SINGLE_BATTLE_TEST("Reborn prevents a KO from poison damage and restores full HP")
 {
     GIVEN {

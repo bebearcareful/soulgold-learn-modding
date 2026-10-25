@@ -949,4 +949,37 @@ u8 GetInnateUnlockLevel(u32 innateNum);
 bool32 IsInnateUnlockedByLevel(u32 innateNum, u32 level);
 bool32 BoxMonHasInnate(struct BoxPokemon* boxmon, enum Ability ability);
 bool32 MonHasTrait(struct Pokemon* mon, enum Ability ability);
+
+static inline bool32 OmegaGrantsAbility(enum Ability ability)
+{
+    switch (ability)
+    {
+    case ABILITY_NORMALIZE:
+    case ABILITY_PLAIN_SOUL:
+    case ABILITY_SIMPLE:
+    case ABILITY_REBORN:
+    case ABILITY_MINDS_EYE:
+    case ABILITY_TRUE_GRIT:
+    case ABILITY_ADAPTABILITY:
+    case ABILITY_NEUROFORCE:
+    case ABILITY_TECHNICIAN:
+    case ABILITY_MANEUVERABILITY:
+    case ABILITY_PARENTAL_BOND:
+    case ABILITY_LONG_REACH:
+    case ABILITY_LIFESTEAL:
+    case ABILITY_INFILTRATOR:
+    case ABILITY_MOLD_BREAKER:
+    case ABILITY_DAZZLING:
+    case ABILITY_UNAWARE:
+    case ABILITY_GOOD_AS_GOLD:
+    case ABILITY_FULL_METAL_BODY:
+    case ABILITY_MAGIC_GUARD:
+    case ABILITY_PHALANX:
+    case ABILITY_SPECTRAL:
+    case ABILITY_MENDING:
+        return TRUE;
+    default:
+        return FALSE;
+    }
+}
 #endif // GUARD_POKEMON_H

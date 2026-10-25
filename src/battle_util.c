@@ -2721,6 +2721,7 @@ static enum Type GetAdditionalTypeAbilityType(enum Ability ability)
 {
     switch (ability)
     {
+    case ABILITY_OMEGA:
     case ABILITY_PLAIN_SOUL:
         return TYPE_NORMAL;
     case ABILITY_FIGHTER_SOUL:
@@ -10992,6 +10993,10 @@ static inline uq4_12_t CalcTypeEffectivenessMultiplierInternal(struct BattleCont
 
 static bool32 BattlerHasTraitForTypeEffectiveness(enum BattlerId battler, enum Ability ability)
 {
+    if (OmegaGrantsAbility(ability)
+     && BattlerHasTraitForTypeEffectiveness(battler, ABILITY_OMEGA))
+        return TRUE;
+
     if (gAiLogicData != NULL && gAiLogicData->aiCalcInProgress)
     {
         bool32 hasAbilityShield = Ai_BattlerHasHoldEffect(battler, HOLD_EFFECT_ABILITY_SHIELD, gAiLogicData);
@@ -14065,12 +14070,20 @@ u32 BattlerHasTrait(enum BattlerId battlerId, enum Ability ability)
     u32 traitNum = 0;
 
     if (gAiLogicData != NULL && gAiLogicData->aiCalcInProgress)
-        return AiCachedBattlerTraitSlot(battlerId, ability);
+    {
+        traitNum = AiCachedBattlerTraitSlot(battlerId, ability);
+        if (traitNum == 0 && OmegaGrantsAbility(ability))
+            traitNum = AiCachedBattlerTraitSlot(battlerId, ABILITY_OMEGA);
+        return traitNum;
+    }
 
     if (GetBattlerAbility(battlerId) == ability)
         traitNum = 1;
     else 
         traitNum = BattlerHasInnate(battlerId, ability);
+
+    if (traitNum == 0 && OmegaGrantsAbility(ability))
+        traitNum = BattlerHasTrait(battlerId, ABILITY_OMEGA);
 
     return traitNum;
 }

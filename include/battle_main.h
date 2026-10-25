@@ -142,7 +142,8 @@ static inline u32 SearchTraits(enum Ability *battlerTraits, enum Ability ability
 {
   for (u32 i = 0; i < MAX_MON_TRAITS; i++)
   {
-    if (battlerTraits[i] == abilityToCheck)
+    if (battlerTraits[i] == abilityToCheck
+     || (battlerTraits[i] == ABILITY_OMEGA && OmegaGrantsAbility(abilityToCheck)))
       return i + 1;
   }
   return 0;

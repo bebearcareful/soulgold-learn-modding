@@ -7869,7 +7869,9 @@ bool32 MonHasTrait(struct Pokemon *mon,  enum Ability ability)
     u32 species = GetMonData(mon, MON_DATA_SPECIES, NULL);
     u32 level = GetMonData(mon, MON_DATA_LEVEL, NULL);
 
-    return (GetMonAbility(mon) == ability || SpeciesHasInnateAtLevel(species, ability, level));
+    return (GetMonAbility(mon) == ability || SpeciesHasInnateAtLevel(species, ability, level))
+        || (OmegaGrantsAbility(ability)
+         && (GetMonAbility(mon) == ABILITY_OMEGA || SpeciesHasInnateAtLevel(species, ABILITY_OMEGA, level)));
 } 
 
 enum Ability GetSpeciesInnate(u32 species, u32 traitNum)

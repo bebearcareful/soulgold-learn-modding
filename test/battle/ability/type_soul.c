@@ -37,6 +37,63 @@ SINGLE_BATTLE_TEST("Each Soul ability adds its described type")
     }
 }
 
+SINGLE_BATTLE_TEST("Omega adds Normal typing")
+{
+    enum Type types[3];
+
+    GIVEN {
+        PLAYER(SPECIES_ARCEUS_FIRE);
+        OPPONENT(SPECIES_WOBBUFFET);
+    } WHEN {
+        TURN {}
+    } THEN {
+        GetBattlerTypes((enum BattlerId)B_POSITION_PLAYER_LEFT, FALSE, types);
+        EXPECT_EQ(types[2], TYPE_NORMAL);
+    }
+}
+
+SINGLE_BATTLE_TEST("Omega grants its additional abilities")
+{
+    enum Ability ability;
+    enum Ability battlerTraits[MAX_MON_TRAITS];
+    enum BattlerId battler = (enum BattlerId)B_POSITION_PLAYER_LEFT;
+
+    PARAMETRIZE { ability = ABILITY_NORMALIZE; }
+    PARAMETRIZE { ability = ABILITY_PLAIN_SOUL; }
+    PARAMETRIZE { ability = ABILITY_SIMPLE; }
+    PARAMETRIZE { ability = ABILITY_REBORN; }
+    PARAMETRIZE { ability = ABILITY_MINDS_EYE; }
+    PARAMETRIZE { ability = ABILITY_TRUE_GRIT; }
+    PARAMETRIZE { ability = ABILITY_ADAPTABILITY; }
+    PARAMETRIZE { ability = ABILITY_NEUROFORCE; }
+    PARAMETRIZE { ability = ABILITY_TECHNICIAN; }
+    PARAMETRIZE { ability = ABILITY_MANEUVERABILITY; }
+    PARAMETRIZE { ability = ABILITY_PARENTAL_BOND; }
+    PARAMETRIZE { ability = ABILITY_LONG_REACH; }
+    PARAMETRIZE { ability = ABILITY_LIFESTEAL; }
+    PARAMETRIZE { ability = ABILITY_INFILTRATOR; }
+    PARAMETRIZE { ability = ABILITY_MOLD_BREAKER; }
+    PARAMETRIZE { ability = ABILITY_DAZZLING; }
+    PARAMETRIZE { ability = ABILITY_UNAWARE; }
+    PARAMETRIZE { ability = ABILITY_GOOD_AS_GOLD; }
+    PARAMETRIZE { ability = ABILITY_FULL_METAL_BODY; }
+    PARAMETRIZE { ability = ABILITY_MAGIC_GUARD; }
+    PARAMETRIZE { ability = ABILITY_PHALANX; }
+    PARAMETRIZE { ability = ABILITY_SPECTRAL; }
+    PARAMETRIZE { ability = ABILITY_MENDING; }
+
+    GIVEN {
+        PLAYER(SPECIES_ARCEUS_NORMAL);
+        OPPONENT(SPECIES_WOBBUFFET);
+    } WHEN {
+        TURN {}
+    } THEN {
+        STORE_BATTLER_TRAITS(battler);
+        EXPECT_TRUE(BattlerHasTrait(battler, ability));
+        EXPECT_NE(SearchTraits(battlerTraits, ability), 0);
+    }
+}
+
 SINGLE_BATTLE_TEST("Fighter Soul adds Fighting STAB to non-Fighting Pokemon", s16 damage)
 {
     enum Ability ability;

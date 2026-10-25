@@ -23,3 +23,18 @@ SINGLE_BATTLE_TEST("Simple doubles stat increases and decreases")
         EXPECT_EQ(player->statStages[STAT_DEF], DEFAULT_STAT_STAGE - 4);
     }
 }
+
+SINGLE_BATTLE_TEST("Omega grants Simple")
+{
+    GIVEN {
+        ASSUME(GetMoveEffect(MOVE_SWORDS_DANCE) == EFFECT_ATTACK_UP_2);
+        ASSUME(GetMoveEffect(MOVE_SCREECH) == EFFECT_DEFENSE_DOWN_2);
+        PLAYER(SPECIES_ARCEUS_NORMAL);
+        OPPONENT(SPECIES_WOBBUFFET);
+    } WHEN {
+        TURN { MOVE(player, MOVE_SWORDS_DANCE); MOVE(opponent, MOVE_SCREECH); }
+    } THEN {
+        EXPECT_EQ(player->statStages[STAT_ATK], DEFAULT_STAT_STAGE + 4);
+        EXPECT_EQ(player->statStages[STAT_DEF], DEFAULT_STAT_STAGE - 4);
+    }
+}
