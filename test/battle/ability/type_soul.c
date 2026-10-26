@@ -89,7 +89,7 @@ SINGLE_BATTLE_TEST("Omega grants its additional abilities")
         TURN {}
     } THEN {
         STORE_BATTLER_TRAITS(battler);
-        EXPECT_TRUE(BattlerHasTrait(battler, ability));
+        EXPECT_NE(BattlerHasTrait(battler, ability), FALSE);
         EXPECT_NE(SearchTraits(battlerTraits, ability), 0);
     }
 }
